@@ -11,36 +11,49 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "city",
-        "name"
+        "article",
+        "count",
+        "package"
 })
 public class Parameters {
 
-    @JsonProperty("city")
-    private String city;
-    @JsonProperty("name")
-    private String name;
+    @JsonProperty("article")
+    private String article;
+    @JsonProperty("count")
+    private Integer count;
+    @JsonProperty("package")
+    private String _package;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("city")
-    public String getCity() {
-        return city;
+    @JsonProperty("article")
+    public String getArticle() {
+        return article;
     }
 
-    @JsonProperty("city")
-    public void setCity(String city) {
-        this.city = city;
+    @JsonProperty("article")
+    public void setArticle(String article) {
+        this.article = article;
     }
 
-    @JsonProperty("name")
-    public String getName() {
-        return name;
+    @JsonProperty("count")
+    public Integer getCount() {
+        return count;
     }
 
-    @JsonProperty("name")
-    public void setName(String name) {
-        this.name = name;
+    @JsonProperty("count")
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    @JsonProperty("package")
+    public String getPackage() {
+        return _package;
+    }
+
+    @JsonProperty("package")
+    public void setPackage(String _package) {
+        this._package = _package;
     }
 
     @JsonAnyGetter
