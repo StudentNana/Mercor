@@ -14,7 +14,13 @@ public class ServiceController {
     @ResponseBody
     public String search(@RequestBody ApiaiSearchQuery apiaiSearchQuery) {
         System.out.println(apiaiSearchQuery);
-        return "RESULT\n";
+        return "{\n" +
+                "    \"speech\": \"Barack Hussein Obama II was the 44th and current President of the United States.\",\n" +
+                "    \"displayText\": \"Barack Hussein Obama II was the 44th and current President of the United States, and the first African American to hold the office. Born in Honolulu, Hawaii, Obama is a graduate of Columbia University   and Harvard Law School, where \",\n" +
+                "    \"data\": {},\n" +
+                "    \"contextOut\": [{\"name\":\"weather\",\"lifespan\":2,\"parameters\":{\"article\":[\"cola\"],\"count\":[\"drei\"],\"date\":\"\",\"package\":[\"kiste\"]}}],\n" +
+                "    \"source\": \"DuckDuckGo\"\n" +
+                "}";
     }
 
     @RequestMapping(value = "mercor/test", method = RequestMethod.GET)
