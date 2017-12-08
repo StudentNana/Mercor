@@ -1,6 +1,6 @@
 package com.nana.mercor.web;
 
-import com.nana.mercor.domain.ApiaiResult;
+import com.nana.mercor.domain.ApiaiSearchQuery;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,8 +12,8 @@ public class ServiceController {
 
     @RequestMapping(value = "mercor/search", method = RequestMethod.POST)
     @ResponseBody
-    public String search(@RequestBody ApiaiResult apiaiResult) {
-        System.out.println(apiaiResult);
+    public String search(@RequestBody ApiaiSearchQuery apiaiSearchQuery) {
+        System.out.println(apiaiSearchQuery);
         return "RESULT\n";
     }
 

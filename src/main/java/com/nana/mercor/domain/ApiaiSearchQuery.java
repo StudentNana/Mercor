@@ -11,51 +11,38 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "lang",
-        "status",
-        "timestamp",
-        "sessionId",
-        "result",
         "id",
-        "originalRequest"
+        "timestamp",
+        "lang",
+        "result",
+        "status",
+        "sessionId"
 })
-public class ApiaiResult {
+public class ApiaiSearchQuery {
 
-    @JsonProperty("lang")
-    private String lang;
-    @JsonProperty("status")
-    private Status status;
-    @JsonProperty("timestamp")
-    private String timestamp;
-    @JsonProperty("sessionId")
-    private String sessionId;
-    @JsonProperty("result")
-    private Result result;
     @JsonProperty("id")
     private String id;
-    @JsonProperty("originalRequest")
-    private OriginalRequest originalRequest;
+    @JsonProperty("timestamp")
+    private String timestamp;
+    @JsonProperty("lang")
+    private String lang;
+    @JsonProperty("result")
+    private Result result;
+    @JsonProperty("status")
+    private Status status;
+    @JsonProperty("sessionId")
+    private String sessionId;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("lang")
-    public String getLang() {
-        return lang;
+    @JsonProperty("id")
+    public String getId() {
+        return id;
     }
 
-    @JsonProperty("lang")
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
-
-    @JsonProperty("status")
-    public Status getStatus() {
-        return status;
-    }
-
-    @JsonProperty("status")
-    public void setStatus(Status status) {
-        this.status = status;
+    @JsonProperty("id")
+    public void setId(String id) {
+        this.id = id;
     }
 
     @JsonProperty("timestamp")
@@ -68,14 +55,14 @@ public class ApiaiResult {
         this.timestamp = timestamp;
     }
 
-    @JsonProperty("sessionId")
-    public String getSessionId() {
-        return sessionId;
+    @JsonProperty("lang")
+    public String getLang() {
+        return lang;
     }
 
-    @JsonProperty("sessionId")
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
+    @JsonProperty("lang")
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 
     @JsonProperty("result")
@@ -88,24 +75,24 @@ public class ApiaiResult {
         this.result = result;
     }
 
-    @JsonProperty("id")
-    public String getId() {
-        return id;
+    @JsonProperty("status")
+    public Status getStatus() {
+        return status;
     }
 
-    @JsonProperty("id")
-    public void setId(String id) {
-        this.id = id;
+    @JsonProperty("status")
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
-    @JsonProperty("originalRequest")
-    public OriginalRequest getOriginalRequest() {
-        return originalRequest;
+    @JsonProperty("sessionId")
+    public String getSessionId() {
+        return sessionId;
     }
 
-    @JsonProperty("originalRequest")
-    public void setOriginalRequest(OriginalRequest originalRequest) {
-        this.originalRequest = originalRequest;
+    @JsonProperty("sessionId")
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     @JsonAnyGetter

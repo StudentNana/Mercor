@@ -1,6 +1,8 @@
+
 package com.nana.mercor.domain;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -13,46 +15,59 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
         "article",
         "count",
+        "date",
         "package"
 })
 public class Parameters {
 
     @JsonProperty("article")
-    private String article;
+    private List<String> article = null;
     @JsonProperty("count")
-    private Integer count;
+    private List<String> count = null;
+    @JsonProperty("date")
+    private String date;
     @JsonProperty("package")
-    private String _package;
+    private List<String> _package = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("article")
-    public String getArticle() {
+    public List<String> getArticle() {
         return article;
     }
 
     @JsonProperty("article")
-    public void setArticle(String article) {
+    public void setArticle(List<String> article) {
         this.article = article;
     }
 
     @JsonProperty("count")
-    public Integer getCount() {
+    public List<String> getCount() {
         return count;
     }
 
     @JsonProperty("count")
-    public void setCount(Integer count) {
+    public void setCount(List<String> count) {
         this.count = count;
     }
 
+    @JsonProperty("date")
+    public String getDate() {
+        return date;
+    }
+
+    @JsonProperty("date")
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     @JsonProperty("package")
-    public String getPackage() {
+    public List<String> getPackage() {
         return _package;
     }
 
     @JsonProperty("package")
-    public void setPackage(String _package) {
+    public void setPackage(List<String> _package) {
         this._package = _package;
     }
 
