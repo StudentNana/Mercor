@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("mercor")
 public class ServiceController {
 
     private final SearchService searchService;
@@ -20,29 +21,14 @@ public class ServiceController {
         this.searchService = searchService;
     }
 
-    public static final String RESPONSE_TEMPLATE = "{\n" +
-            "    \"speech\": \"%s\",\n" +
-            "    \"displayText\": \"%s\",\n" +
-            "    \"data\": {},\n" +
-            "    \"contextOut\": [{\"name\":\"mercor\",\"lifespan\":2,\"parameters\":{\"article\":[\"cola\"],\"count\":[\"drei\"],\"date\":\"\",\"package\":[\"kiste\"]}}],\n" +
-            "    \"source\": \"DuckDuckGo\"\n" +
-            "}";
-    public static final String PRODUCTS_FOUND_MESSAGE = "Gefundene Artikeln: %d";
-
-    @RequestMapping(value = "mercor/search", method = RequestMethod.POST)
+    @RequestMapping(value = "search", method = RequestMethod.POST)
     @ResponseBody
     public String search(@RequestBody ApiaiSearchQuery apiaiSearchQuery) {
-        final Optional<SearchResponse> searchResponse = searchService.search(
-                apiaiSearchQuery.getResult().getParameters().getArticle().get(0),
+        return searchService.search(apiaiSearchQuery.getResult().getParameters().getArticle().get(0),
                 apiaiSearchQuery.getResult().getParameters().getPackage().get(0));
-        String message = "No products found!";
-        if(searchResponse.isPresent()) {
-            message = String.format(PRODUCTS_FOUND_MESSAGE, searchResponse.get().getTotalProductsCount());
-        }
-        return String.format(RESPONSE_TEMPLATE, message, message);
     }
 
-    @RequestMapping(value = "mercor/test", method = RequestMethod.GET)
+    @RequestMapping(value = "test", method = RequestMethod.GET)
     @ResponseBody
     public String test() {
         return "{\n" +

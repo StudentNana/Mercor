@@ -1,0 +1,7 @@
+{
+  "speech": "%s",
+  "displayText": "%s",
+  "data": {},
+  "contextOut": [{"name":"mercor", "lifespan":2,"parameters":{"article":["%s"],"package":["%s"]}}],
+  "source": "mercorApp"
+}
