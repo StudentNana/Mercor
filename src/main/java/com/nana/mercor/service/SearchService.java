@@ -16,7 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -48,7 +51,7 @@ public class SearchService {
     private final String responseTemplate;
 
     public SearchService() throws IOException, URISyntaxException {
-        responseTemplate = readFileToString("templates/searchResponse.json");
+        responseTemplate = getResourceFileAsString("templates/searchResponse.json");
     }
 
     private Optional<SearchResponse> getSearchResponse(final String article, final String packageType) {
@@ -86,14 +89,11 @@ public class SearchService {
         return String.format(responseTemplate, message, message, article, packageType);
     }
 
-    private String readFileToString(final String pathString) throws IOException, URISyntaxException {
-        Path path = Paths.get(getClass().getClassLoader()
-                .getResource(pathString).toURI());
-        StringBuilder data = new StringBuilder();
-        Stream<String> lines = Files.lines(path);
-        lines.forEach(line -> data.append(line).append("\n"));
-        lines.close();
-        return data.toString();
+    public String getResourceFileAsString(String resourceFileName) {
+        InputStream is = getClass().getClassLoader().getResourceAsStream(resourceFileName);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        return reader.lines().collect(Collectors.joining("\n"));
     }
+
 
 }
