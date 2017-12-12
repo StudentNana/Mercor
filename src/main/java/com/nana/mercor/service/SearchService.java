@@ -3,9 +3,11 @@ package com.nana.mercor.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
+import com.nana.mercor.bringmeister.Option__;
 import com.nana.mercor.bringmeister.Product;
 import com.nana.mercor.bringmeister.SearchResponse;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -22,15 +24,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Service
 public class SearchService {
@@ -42,7 +42,7 @@ public class SearchService {
     private static final Map<String, String> QUERY_TEMPLATE = ImmutableMap.of(
             "cat", GETRAENKE_CATEGORY_ID,
             "pc", ARTICLES_COUNT_PER_PAGE,
-            "q=", "%s %s"
+            "q=", "%s"
     );
     private static final String QUERY_TEMPLATE_STRING = Joiner.on("&").withKeyValueSeparator("=").join(QUERY_TEMPLATE);
     private static final String PRODUCTS_NOT_FOUND_MESSAGE = "Keine Artikeln gefunden";
@@ -51,12 +51,19 @@ public class SearchService {
     private final String responseTemplate;
 
     public SearchService() throws IOException, URISyntaxException {
-        responseTemplate = getResourceFileAsString("templates/searchResponse.json");
+        responseTemplate = getResourceFileAsString("templates/googleSearchResponse.json");
     }
 
-    private Optional<SearchResponse> getSearchResponse(final String article, final String packageType) {
+    private Optional<SearchResponse> getSearchResponse(final String article, final String packageType,
+                                                       final String brandId) {
 
-        final String query = String.format(QUERY_TEMPLATE_STRING, article, packageType);
+        final List<String> params = Stream.of(article, packageType)
+                .filter(StringUtils::isNotEmpty)
+                .collect(Collectors.toList());
+        String query = String.format(QUERY_TEMPLATE_STRING, String.join(" ", params));
+        if (isNotEmpty(brandId)) {
+            query = query + String.format("bm_brand[%s]=%s", brandId, brandId);
+        }
         LOGGER.info("Query string: {}", query);
 
         final ByteArrayEntity requestEntity = new ByteArrayEntity(query.getBytes());
@@ -77,17 +84,32 @@ public class SearchService {
         }
     }
 
-    public String search(final String article, final String packageType) {
-        final Optional<SearchResponse> searchResponse = getSearchResponse(article, packageType);
+    public String search(final String article, final String packageType, final String brand, final String specialization) {
+        final Optional<SearchResponse> searchResponse = getSearchResponse(article, packageType, null);
         String message = PRODUCTS_NOT_FOUND_MESSAGE;
         if(searchResponse.isPresent()) {
-            final List<Product> products = searchResponse.get().getProducts();
+            List<Product> products = searchResponse.get().getProducts();
+            if (!products.isEmpty() && isNotEmpty(brand)) {
+                final List<Option__> options = searchResponse.get().getFacets().getFilters().getBmBrand().getOptions();
+                final Optional<Option__> brandOptional = options.stream()
+                        .filter(b -> b.getName().toLowerCase().contains(brand.toLowerCase()))
+                        .findFirst();
+                if (brandOptional.isPresent()) {
+                    final Optional<SearchResponse> brandedSearchResponse
+                            = getSearchResponse(article, packageType, brandOptional.get().getId());
+                    if (brandedSearchResponse.isPresent()) {
+                        products = brandedSearchResponse.get().getProducts();
+                    }
+                }
+            }
             if (!products.isEmpty()) {
                 message = String.format(PRODUCTS_FOUND_MESSAGE, products.size());
             }
         }
-        return String.format(responseTemplate, message, message, article, packageType);
+        return String.format(responseTemplate, message, message);
     }
+
+//    public Optional<String> getBrandIdFromResponse()
 
     public String getResourceFileAsString(String resourceFileName) {
         InputStream is = getClass().getClassLoader().getResourceAsStream(resourceFileName);

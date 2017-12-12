@@ -1,8 +1,5 @@
-
 package com.nana.mercor.domain;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -14,61 +11,74 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "article",
+        "brand",
         "count",
-        "date",
-        "package"
+        "package",
+        "spezialization"
 })
 public class Parameters {
 
     @JsonProperty("article")
-    private List<String> article = null;
+    private String article;
+    @JsonProperty("brand")
+    private String brand;
     @JsonProperty("count")
-    private List<String> count = null;
-    @JsonProperty("date")
-    private String date;
+    private String count;
     @JsonProperty("package")
-    private List<String> _package = null;
+    private String _package;
+    @JsonProperty("spezialization")
+    private String spezialization;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("article")
-    public List<String> getArticle() {
+    public String getArticle() {
         return article;
     }
 
     @JsonProperty("article")
-    public void setArticle(List<String> article) {
+    public void setArticle(String article) {
         this.article = article;
     }
 
+    @JsonProperty("brand")
+    public String getBrand() {
+        return brand;
+    }
+
+    @JsonProperty("brand")
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
     @JsonProperty("count")
-    public List<String> getCount() {
+    public String getCount() {
         return count;
     }
 
     @JsonProperty("count")
-    public void setCount(List<String> count) {
+    public void setCount(String count) {
         this.count = count;
     }
 
-    @JsonProperty("date")
-    public String getDate() {
-        return date;
-    }
-
-    @JsonProperty("date")
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     @JsonProperty("package")
-    public List<String> getPackage() {
+    public String getPackage() {
         return _package;
     }
 
     @JsonProperty("package")
-    public void setPackage(List<String> _package) {
+    public void setPackage(String _package) {
         this._package = _package;
+    }
+
+    @JsonProperty("spezialization")
+    public String getSpezialization() {
+        return spezialization;
+    }
+
+    @JsonProperty("spezialization")
+    public void setSpezialization(String spezialization) {
+        this.spezialization = spezialization;
     }
 
     @JsonAnyGetter

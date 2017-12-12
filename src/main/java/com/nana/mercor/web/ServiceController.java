@@ -24,8 +24,11 @@ public class ServiceController {
     @RequestMapping(value = "search", method = RequestMethod.POST)
     @ResponseBody
     public String search(@RequestBody ApiaiSearchQuery apiaiSearchQuery) {
-        return searchService.search(apiaiSearchQuery.getResult().getParameters().getArticle().get(0),
-                apiaiSearchQuery.getResult().getParameters().getPackage().get(0));
+        return searchService.search(
+                apiaiSearchQuery.getResult().getParameters().getArticle(),
+                apiaiSearchQuery.getResult().getParameters().getPackage(),
+                apiaiSearchQuery.getResult().getParameters().getBrand(),
+                apiaiSearchQuery.getResult().getParameters().getSpezialization());
     }
 
     @RequestMapping(value = "test", method = RequestMethod.GET)
