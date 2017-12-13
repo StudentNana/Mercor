@@ -14,24 +14,58 @@
               "displayText": "This is a simple display text response for Action on Google."
             }
           },
-          {
-            "basicCard": {
-              "title": "Title: this is a title",
-              "subtitle": "This is a subtitle",
-              "formattedText": "This is a basic card.  Text in a basic card can include \"quotes\" and most other unicode characters including emoji 📱.  Basic cards also support some markdown formatting like *emphasis* or _italics_, **strong** or __bold__, and ***bold itallic*** or ___strong emphasis___ as well as other things like line  \nbreaks",
-              "image": {
-                "url": "https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png",
-                "accessibilityText": "Image alternate text"
-              },
-              "buttons": [
-                {
-                  "title": "This is a button",
-                  "openUrlAction": {
-                    "url": "https://assistant.google.com/"
-                  }
+          "carouselSelect": {
+            "items": [
+              {
+                "optionInfo": {
+                  "key": "MATH_AND_PRIME",
+                  "synonyms": [
+                    "math",
+                    "math and prime",
+                    "prime numbers",
+                    "prime"
+                  ]
+                },
+                "title": "Math & prime numbers",
+                "description": "42 is an abundant number because the sum of its proper divisors 54 is greater…",
+                "image": {
+                  "url": "http://example.com/math_and_prime.jpg",
+                  "accessibilityText": "Math & prime numbers"
                 }
-              ]
-            }
+              },
+              {
+                "optionInfo": {
+                  "key": "EGYPT",
+                  "synonyms": [
+                    "religion",
+                    "egpyt",
+                    "ancient egyptian"
+                  ]
+                },
+                "title": "Ancient Egyptian religion",
+                "description": "42 gods who ruled on the fate of the dead in the afterworld. Throughout the under…",
+                "image": {
+                  "url": "http://example.com/egypt",
+                  "accessibilityText": "Egypt"
+                }
+              },
+              {
+                "optionInfo": {
+                  "key": "RECIPES",
+                  "synonyms": [
+                    "recipes",
+                    "recipe",
+                    "42 recipes"
+                  ]
+                },
+                "title": "42 recipes with 42 ingredients",
+                "description": "Here's a beautifully simple recipe that's full of flavor! All you need is some ginger and…",
+                "image": {
+                  "url": "http://example.com/recipe",
+                  "accessibilityText": "Recipe"
+                }
+              }
+            ]
           }
         ]
       }
