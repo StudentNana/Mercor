@@ -1,5 +1,6 @@
 {
-  "speech": "Hello",
+  "speech": "%s",
+  "displayText": "%s",
   "contextOut": [
     {
       "name": "_actions_on_google_",
@@ -14,7 +15,7 @@
         "items": [
           {
             "simpleResponse": {
-              "textToSpeech": "Hello"
+              "textToSpeech": "%s"
             }
           }
         ],
@@ -27,9 +28,9 @@
           "carouselSelect": {
             "items": [
               {
-                "title": "Foo",
+                "title": "%s",
                 "image": {
-                  "url": "http://example.com/foo.jpg",
+                  "url": "%s",
                   "accessibilityText": "Foo title"
                 },
                 "optionInfo": {
@@ -41,9 +42,9 @@
                 }
               },
               {
-                "title": "Bar",
+                "title": "%s",
                 "image": {
-                  "url": "http://example.com/bar.jpg",
+                  "url": "%s",
                   "accessibilityText": "Bar title"
                 },
                 "optionInfo": {
@@ -51,6 +52,20 @@
                   "synonyms": [
                     "bar-alt-1",
                     "bar-alt-2"
+                  ]
+                }
+              },
+              {
+                "title": "%s",
+                "image": {
+                  "url": "%s",
+                  "accessibilityText": "Foo title"
+                },
+                "optionInfo": {
+                  "key": "foo-key",
+                  "synonyms": [
+                    "foo-alt-1",
+                    "foo-alt-2"
                   ]
                 }
               }

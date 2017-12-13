@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -49,6 +50,9 @@ public class SearchService {
     private static final String PRODUCTS_FOUND_MESSAGE = "Gefundene Artikeln: %d";
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private final String responseTemplate;
+
+    String[] title = new String[3];
+    String[] img = new String[3];
 
     public SearchService() throws IOException, URISyntaxException {
         responseTemplate = getResourceFileAsString("templates/googleSearchResponse.json");
@@ -105,8 +109,14 @@ public class SearchService {
             if (!products.isEmpty()) {
                 message = String.format(PRODUCTS_FOUND_MESSAGE, products.size());
             }
+
+            for (int i = 0; i <= 2; i++){
+                title[i] = products.get(i).getName();
+                img[i] = products.get(i).getImageUrl();
+                i++;
+            }
         }
-        return String.format(responseTemplate, message, message);
+        return String.format(responseTemplate, message, message,message, title[1], img[1], title[2], img[2], title[3], img[3] );
     }
 
 //    public Optional<String> getBrandIdFromResponse()
