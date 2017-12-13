@@ -1,8 +1,13 @@
 package com.nana.mercor.carousel;
 
+import com.google.common.collect.ImmutableList;
+import com.nana.mercor.bringmeister.Product;
+
 import java.util.List;
 
 public class CarouselElementInfo {
+
+    private static final Object EURO = "Euro";
 
     private final String title;
     private final String description;
@@ -44,6 +49,16 @@ public class CarouselElementInfo {
 
     public List<String> getSynonyms() {
         return synonyms;
+    }
+
+    public static CarouselElementInfo buildCarouselElementInfo(final Product product, final int count) {
+        return new CarouselElementInfo(
+                product.getName(),
+                String.format("%s %s\\\\n%s", product.getFormatedPrice(), EURO, product.getPacking()),
+                product.getImageUrl(),
+                product.getName(),
+                product.getId(),
+                ImmutableList.of(Integer.toString(count), product.getName().split(" ")[0]));
     }
 
 }

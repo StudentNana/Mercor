@@ -29,6 +29,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.nana.mercor.carousel.CarouselElementInfo.buildCarouselElementInfo;
 import static com.nana.mercor.service.ResponseService.buildPlainApiaiResponse;
 import static com.nana.mercor.service.ResponseService.buildCarouselResponse;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -39,25 +40,27 @@ public class SearchService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchService.class);
     private static final String URL = "https://berlin.bringmeister.de/fast-search/index.php";
     private static final String GETRAENKE_CATEGORY_ID = "2847";
-    private static final String ARTICLES_COUNT_PER_PAGE = "100";
     private static final Map<String, String> QUERY_TEMPLATE = ImmutableMap.of(
             "cat", GETRAENKE_CATEGORY_ID,
-            "pc", ARTICLES_COUNT_PER_PAGE,
+            "pc", "%d",
             "q=", "%s"
     );
     private static final String QUERY_TEMPLATE_STRING = Joiner.on("&").withKeyValueSeparator("=").join(QUERY_TEMPLATE);
     private static final String PRODUCTS_NOT_FOUND_MESSAGE = "Keine Artikeln gefunden";
     private static final String PRODUCTS_FOUND_MESSAGE = "Gefundene Artikeln: %d";
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    private static final Object EURO = "\u20ac";
+
+    private String buildQuery(final List<String> params, final int limit) {
+        return String.format(QUERY_TEMPLATE_STRING, limit, String.join(" ", params));
+    }
 
     private Optional<SearchResponse> getSearchResponse(final String article, final String packageType,
-                                                       final String brandId) {
+                                                       final String brandId, final int limit) {
 
         final List<String> params = Stream.of(article, packageType)
                 .filter(StringUtils::isNotEmpty)
                 .collect(Collectors.toList());
-        String query = String.format(QUERY_TEMPLATE_STRING, String.join(" ", params));
+        String query = buildQuery(params, limit);
         if (isNotEmpty(brandId)) {
             query = query + String.format("bm_brand[%s]=%s", brandId, brandId);
         }
@@ -83,7 +86,7 @@ public class SearchService {
 
     public String search(final String article, final String packageType, final String brandName,
                          final String specialization) {
-        final Optional<SearchResponse> searchResponse = getSearchResponse(article, packageType, null);
+        final Optional<SearchResponse> searchResponse = getSearchResponse(article, packageType, null, 100);
         if(searchResponse.isPresent()) {
             List<Product> products = getProductsFromResponse(searchResponse.get(), article, packageType, brandName);
             if (!products.isEmpty()) {
@@ -101,16 +104,6 @@ public class SearchService {
         return buildPlainApiaiResponse(PRODUCTS_NOT_FOUND_MESSAGE, PRODUCTS_NOT_FOUND_MESSAGE, article, packageType);
     }
 
-    private static CarouselElementInfo buildCarouselElementInfo(final Product product, final int count) {
-        return new CarouselElementInfo(
-                product.getName(),
-                String.format("%s %s%n%s", product.getFormatedPrice(), EURO, product.getPacking()),
-                product.getImageUrl(),
-                product.getName(),
-                product.getId(),
-                ImmutableList.of(Integer.toString(count), product.getName().split(" ")[0]));
-    }
-
     private List<Product> getProductsFromResponse(final SearchResponse searchResponse, final String article,
                                                   final String packageType, final String brandName) {
         List<Product> products = searchResponse.getProducts();
@@ -118,13 +111,13 @@ public class SearchService {
             final Optional<Option__> brandOptional = getBrand(searchResponse, brandName);
             if (brandOptional.isPresent()) {
                 final Optional<SearchResponse> brandedSearchResponse
-                        = getSearchResponse(article, packageType, brandOptional.get().getId());
+                        = getSearchResponse(article, packageType, brandOptional.get().getId(), 10);
                 if (brandedSearchResponse.isPresent()) {
                     products = brandedSearchResponse.get().getProducts();
                 }
             }
         }
-        return products;
+        return products.subList(0, 10);
     }
 
     private Optional<Option__> getBrand(final SearchResponse searchResponse, final String brand) {

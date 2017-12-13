@@ -7,8 +7,6 @@
   },
   "optionInfo": {
     "key": "%s",
-    "synonyms": [
-      "%s"
-    ]
+    "synonyms": [%s]
   }
 }
