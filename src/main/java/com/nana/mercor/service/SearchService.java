@@ -109,14 +109,9 @@ public class SearchService {
             if (!products.isEmpty()) {
                 message = String.format(PRODUCTS_FOUND_MESSAGE, products.size());
             }
-
-            for (int i = 0; i <= 2; i++){
-                title[i] = products.get(i).getName();
-                img[i] = products.get(i).getImageUrl();
-                i++;
-            }
         }
-        return String.format(responseTemplate, message, message,message, title[1], img[1], title[2], img[2], title[3], img[3] );
+
+        return String.format(responseTemplate, message, message);
     }
 
 //    public Optional<String> getBrandIdFromResponse()

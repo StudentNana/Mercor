@@ -15,7 +15,7 @@
         "items": [
           {
             "simpleResponse": {
-              "textToSpeech": "%s"
+              "textToSpeech": "Test"
             }
           }
         ],
@@ -28,9 +28,9 @@
           "carouselSelect": {
             "items": [
               {
-                "title": "%s",
+                "title": "Foo",
                 "image": {
-                  "url": "%s",
+                  "url": "http://example.com/foo.jpg",
                   "accessibilityText": "Foo title"
                 },
                 "optionInfo": {
@@ -42,9 +42,9 @@
                 }
               },
               {
-                "title": "%s",
+                "title": "Bar",
                 "image": {
-                  "url": "%s",
+                  "url": "http://example.com/bar.jpg",
                   "accessibilityText": "Bar title"
                 },
                 "optionInfo": {
@@ -56,13 +56,13 @@
                 }
               },
               {
-                "title": "%s",
+                "title": "FooToo",
                 "image": {
-                  "url": "%s",
+                  "url": "http://example.com/foo.jpg",
                   "accessibilityText": "Foo title"
                 },
                 "optionInfo": {
-                  "key": "foo-key",
+                  "key": "foot-key",
                   "synonyms": [
                     "foo-alt-1",
                     "foo-alt-2"
