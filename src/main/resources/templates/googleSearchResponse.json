@@ -2,22 +2,39 @@
   "speech": "%s",
   "displayText": "%s",
   "data": {
-    "platform": "ACTIONS_ON_GOOGLE",
-    "basic_card": {
-      "title": "Title: this is a title",
-      "subtitle": "This is an subtitle.",
-      "formatted_text": "Body text can include unicode characters including emoji",
-      "image": {
-        "image_uri": "https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png"
-      },
-      "buttons": [
-        {
-          "title": "This is a button",
-          "open_uri_action": {
-            "uri": "https://assistant.google.com/"
+    "google": {
+      "expectUserResponse": true,
+      "isSsml": false,
+      "noInputPrompts": [],
+      "richResponse": {
+        "items": [
+          {
+            "simpleResponse": {
+              "textToSpeech": "This is a simple speech response for Actions on Google.",
+              "displayText": "This is a simple display text response for Action on Google."
+            }
+          },
+          {
+            "basicCard": {
+              "title": "Title: this is a title",
+              "subtitle": "This is a subtitle",
+              "formattedText": "This is a basic card.  Text in a basic card can include \"quotes\" and most other unicode characters including emoji 📱.  Basic cards also support some markdown formatting like *emphasis* or _italics_, **strong** or __bold__, and ***bold itallic*** or ___strong emphasis___ as well as other things like line  \nbreaks",
+              "image": {
+                "url": "https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png",
+                "accessibilityText": "Image alternate text"
+              },
+              "buttons": [
+                {
+                  "title": "This is a button",
+                  "openUrlAction": {
+                    "url": "https://assistant.google.com/"
+                  }
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   }
 }
