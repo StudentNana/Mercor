@@ -2,10 +2,12 @@ package com.nana.mercor.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.nana.mercor.bringmeister.Option__;
 import com.nana.mercor.bringmeister.Product;
 import com.nana.mercor.bringmeister.SearchResponse;
+import com.nana.mercor.carousel.CarouselElementInfo;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
@@ -18,19 +20,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.nana.mercor.service.ResponseService.buildPlainApiaiResponse;
+import static com.nana.mercor.service.ResponseService.buildCarouselResponse;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Service
@@ -49,14 +49,7 @@ public class SearchService {
     private static final String PRODUCTS_NOT_FOUND_MESSAGE = "Keine Artikeln gefunden";
     private static final String PRODUCTS_FOUND_MESSAGE = "Gefundene Artikeln: %d";
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    private final String responseTemplate;
-
-    String[] title = new String[3];
-    String[] img = new String[3];
-
-    public SearchService() throws IOException, URISyntaxException {
-        responseTemplate = getResourceFileAsString("templates/googleSearchResponse.json");
-    }
+    private static final Object EURO = "\u20ac";
 
     private Optional<SearchResponse> getSearchResponse(final String article, final String packageType,
                                                        final String brandId) {
@@ -88,39 +81,59 @@ public class SearchService {
         }
     }
 
-    public String search(final String article, final String packageType, final String brand, final String specialization) {
+    public String search(final String article, final String packageType, final String brandName,
+                         final String specialization) {
         final Optional<SearchResponse> searchResponse = getSearchResponse(article, packageType, null);
-        String message = PRODUCTS_NOT_FOUND_MESSAGE;
         if(searchResponse.isPresent()) {
-            List<Product> products = searchResponse.get().getProducts();
-            if (!products.isEmpty() && isNotEmpty(brand)) {
-                final List<Option__> options = searchResponse.get().getFacets().getFilters().getBmBrand().getOptions();
-                final Optional<Option__> brandOptional = options.stream()
-                        .filter(b -> b.getName().toLowerCase().contains(brand.toLowerCase()))
-                        .findFirst();
-                if (brandOptional.isPresent()) {
-                    final Optional<SearchResponse> brandedSearchResponse
-                            = getSearchResponse(article, packageType, brandOptional.get().getId());
-                    if (brandedSearchResponse.isPresent()) {
-                        products = brandedSearchResponse.get().getProducts();
-                    }
-                }
-            }
+            List<Product> products = getProductsFromResponse(searchResponse.get(), article, packageType, brandName);
             if (!products.isEmpty()) {
-                message = String.format(PRODUCTS_FOUND_MESSAGE, products.size());
+                final ArrayList<CarouselElementInfo> carouselElementInfos = new ArrayList<>();
+                int counter = 1;
+                products.stream().forEach(p -> {
+                    final CarouselElementInfo carouselElementInfo = buildCarouselElementInfo(p, counter);
+                    carouselElementInfos.add(carouselElementInfo);
+                });
+                final String message = String.format(PRODUCTS_FOUND_MESSAGE, products.size());
+                return buildCarouselResponse(message, message, message, carouselElementInfos);
             }
         }
 
-        return String.format(responseTemplate, message, message);
+        return buildPlainApiaiResponse(PRODUCTS_NOT_FOUND_MESSAGE, PRODUCTS_NOT_FOUND_MESSAGE, article, packageType);
+    }
+
+    private static CarouselElementInfo buildCarouselElementInfo(final Product product, final int count) {
+        return new CarouselElementInfo(
+                product.getName(),
+                String.format("%s %s%n%s", product.getFormatedPrice(), EURO, product.getPacking()),
+                product.getImageUrl(),
+                product.getName(),
+                product.getId(),
+                ImmutableList.of(Integer.toString(count), product.getName().split(" ")[0]));
+    }
+
+    private List<Product> getProductsFromResponse(final SearchResponse searchResponse, final String article,
+                                                  final String packageType, final String brandName) {
+        List<Product> products = searchResponse.getProducts();
+        if (!products.isEmpty() && isNotEmpty(brandName)) {
+            final Optional<Option__> brandOptional = getBrand(searchResponse, brandName);
+            if (brandOptional.isPresent()) {
+                final Optional<SearchResponse> brandedSearchResponse
+                        = getSearchResponse(article, packageType, brandOptional.get().getId());
+                if (brandedSearchResponse.isPresent()) {
+                    products = brandedSearchResponse.get().getProducts();
+                }
+            }
+        }
+        return products;
+    }
+
+    private Optional<Option__> getBrand(final SearchResponse searchResponse, final String brand) {
+        final List<Option__> options = searchResponse.getFacets().getFilters().getBmBrand().getOptions();
+        return options.stream()
+                .filter(b -> b.getName().toLowerCase().contains(brand.toLowerCase()))
+                .findFirst();
     }
 
 //    public Optional<String> getBrandIdFromResponse()
-
-    public String getResourceFileAsString(String resourceFileName) {
-        InputStream is = getClass().getClassLoader().getResourceAsStream(resourceFileName);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        return reader.lines().collect(Collectors.joining("\n"));
-    }
-
 
 }

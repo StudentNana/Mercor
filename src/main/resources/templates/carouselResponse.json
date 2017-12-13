@@ -1,0 +1,35 @@
+{
+  "speech": "%s",
+  "displayText": "%s",
+  "contextOut": [
+    {
+      "name": "_actions_on_google_",
+      "lifespan": 100,
+      "parameters": {}
+    }
+  ],
+  "data": {
+    "google": {
+      "expectUserResponse": true,
+      "richResponse": {
+        "items": [
+          {
+            "simpleResponse": {
+              "textToSpeech": "%s"
+            }
+          }
+        ],
+        "suggestions": []
+      },
+      "systemIntent": {
+        "intent": "actions.intent.OPTION",
+        "data": {
+          "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
+          "carouselSelect": {
+            "items": ["%s"]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "title": "%s",
+  "description": "%s",
+  "image": {
+    "url": "%s",
+    "accessibilityText": "%s"
+  },
+  "optionInfo": {
+    "key": "%s",
+    "synonyms": [
+      "%s"
+    ]
+  }
+}
