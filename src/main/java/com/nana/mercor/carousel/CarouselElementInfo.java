@@ -55,7 +55,7 @@ public class CarouselElementInfo {
         return new CarouselElementInfo(
                 product.getName(),
                 String.format("%s %s\\\\n%s", product.getFormatedPrice(), EURO, product.getPacking()),
-                product.getImageUrl(),
+                "https:" + product.getImageUrl(),
                 product.getName(),
                 product.getId(),
                 ImmutableList.of(Integer.toString(count), product.getName().split(" ")[0]));
