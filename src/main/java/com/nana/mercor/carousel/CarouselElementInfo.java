@@ -74,8 +74,8 @@ public class CarouselElementInfo {
     public static CarouselElementInfo buildCarouselElementInfoForSearchResult(final Product product, final int index) {
         return new CarouselElementInfo(
                 product.getName(),
-                String.format("%s %s\\\\n%s", product.getFormatedPrice(), EURO, product.getPacking()),
-                product.getImageUrl(),
+                String.format("%s %s \\\n %s", product.getFormatedPrice(), EURO, product.getPacking()),
+                "https:" + product.getImageUrl(),
                 product.getName(),
                 product.getId(),
                 0,
