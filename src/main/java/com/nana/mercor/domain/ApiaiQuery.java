@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "status",
         "sessionId"
 })
-public class ApiaiSearchQuery {
+public class ApiaiQuery {
 
     @JsonProperty("id")
     private String id;

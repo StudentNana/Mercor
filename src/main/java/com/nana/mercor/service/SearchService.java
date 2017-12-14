@@ -2,7 +2,6 @@ package com.nana.mercor.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.nana.mercor.bringmeister.Option__;
 import com.nana.mercor.bringmeister.Product;
@@ -23,13 +22,14 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.nana.mercor.carousel.CarouselElementInfo.buildCarouselElementInfo;
+import static com.nana.mercor.carousel.CarouselElementInfo.buildCarouselElementInfoForSearchResult;
 import static com.nana.mercor.service.ResponseService.buildPlainApiaiResponse;
 import static com.nana.mercor.service.ResponseService.buildCarouselResponse;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -49,6 +49,7 @@ public class SearchService {
     private static final String PRODUCTS_NOT_FOUND_MESSAGE = "Keine Artikeln gefunden";
     private static final String PRODUCTS_FOUND_MESSAGE = "Gefundene Artikeln: %d";
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    private List<Product> lastProducts = new ArrayList<>();
 
     private String buildQuery(final List<String> params, final int limit) {
         return String.format(QUERY_TEMPLATE_STRING, limit, String.join(" ", params));
@@ -90,10 +91,11 @@ public class SearchService {
         if(searchResponse.isPresent()) {
             List<Product> products = getProductsFromResponse(searchResponse.get(), article, packageType, brandName);
             if (!products.isEmpty()) {
+                lastProducts = products;
                 final ArrayList<CarouselElementInfo> carouselElementInfos = new ArrayList<>();
                 int counter = 1;
                 products.stream().forEach(p -> {
-                    final CarouselElementInfo carouselElementInfo = buildCarouselElementInfo(p, counter);
+                    final CarouselElementInfo carouselElementInfo = buildCarouselElementInfoForSearchResult(p, counter);
                     carouselElementInfos.add(carouselElementInfo);
                 });
                 final String message = String.format(PRODUCTS_FOUND_MESSAGE, products.size());
@@ -125,6 +127,10 @@ public class SearchService {
         return options.stream()
                 .filter(b -> b.getName().toLowerCase().contains(brand.toLowerCase()))
                 .findFirst();
+    }
+
+    public List<Product> getLastProducts() {
+        return Collections.unmodifiableList(lastProducts);
     }
 
 //    public Optional<String> getBrandIdFromResponse()

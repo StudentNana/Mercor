@@ -3,6 +3,7 @@ package com.nana.mercor.carousel;
 import com.google.common.collect.ImmutableList;
 import com.nana.mercor.bringmeister.Product;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CarouselElementInfo {
@@ -15,16 +16,18 @@ public class CarouselElementInfo {
     private final String accessibilityText;
     private final String key;
     private final List<String> synonyms;
+    private final int count;
 
 
     public CarouselElementInfo(String title, String description, String url, String accessibilityText, String key,
-                               List<String> synonyms) {
+                               int count, List<String> synonyms) {
         this.title = title;
         this.description = description;
         this.url = url;
         this.accessibilityText = accessibilityText;
         this.key = key;
         this.synonyms = synonyms;
+        this.count = count;
     }
 
     public String getTitle() {
@@ -51,14 +54,32 @@ public class CarouselElementInfo {
         return synonyms;
     }
 
-    public static CarouselElementInfo buildCarouselElementInfo(final Product product, final int count) {
+    public int getCount() {
+        return count;
+    }
+
+    public static CarouselElementInfo buildCarouselElementInfoForCart(final Product product, final int count) {
+        final String description = String.format("%d * %s = %4.2f %s\\\\n%s", count, product.getFormatedPrice(),
+                product.getPrice() * count, EURO, product.getPacking());
+        return new CarouselElementInfo(
+                product.getName(),
+                description,
+                product.getImageUrl(),
+                product.getName(),
+                product.getId(),
+                count,
+                Collections.EMPTY_LIST);
+    }
+
+    public static CarouselElementInfo buildCarouselElementInfoForSearchResult(final Product product, final int index) {
         return new CarouselElementInfo(
                 product.getName(),
                 String.format("%s %s\\\\n%s", product.getFormatedPrice(), EURO, product.getPacking()),
                 product.getImageUrl(),
                 product.getName(),
                 product.getId(),
-                ImmutableList.of(Integer.toString(count), product.getName().split(" ")[0]));
+                0,
+                ImmutableList.of(Integer.toString(index), product.getName().split(" ")[0]));
     }
 
 }

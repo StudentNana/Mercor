@@ -1,4 +1,5 @@
 package com.nana.mercor.domain;
+
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -14,7 +15,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "brand",
         "count",
         "package",
-        "spezialization"
+        "spezialization",
+        "articleId"
 })
 public class Parameters {
 
@@ -28,6 +30,8 @@ public class Parameters {
     private String _package;
     @JsonProperty("spezialization")
     private String spezialization;
+    @JsonProperty("articleId")
+    private String articleId;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -79,6 +83,16 @@ public class Parameters {
     @JsonProperty("spezialization")
     public void setSpezialization(String spezialization) {
         this.spezialization = spezialization;
+    }
+
+    @JsonProperty("articleId")
+    public String getArticleId() {
+        return articleId;
+    }
+
+    @JsonProperty("articleId")
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
     }
 
     @JsonAnyGetter
