@@ -3,7 +3,7 @@
   "displayText": "%s",
   "contextOut": [
     {
-      "name": "products",
+      "name": "product",
       "lifespan": 5,
       "parameters": {}
     }

@@ -4,7 +4,7 @@
   "data": {},
   "contextOut": [
     {
-      "name":"products",
+      "name":"product",
       "lifespan":2,
       "parameters": {
         "article":["%s"],

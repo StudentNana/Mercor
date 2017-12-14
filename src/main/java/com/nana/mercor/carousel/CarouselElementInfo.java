@@ -54,7 +54,7 @@ public class CarouselElementInfo {
     public static CarouselElementInfo buildCarouselElementInfo(final Product product, final int count) {
         return new CarouselElementInfo(
                 product.getName(),
-                String.format("%s %s \\n %s", product.getFormatedPrice(), EURO, product.getPacking()),
+                String.format("%s %s \\\n %s", product.getFormatedPrice(), EURO, product.getPacking()),
                 "https:" + product.getImageUrl(),
                 product.getName(),
                 product.getId(),
