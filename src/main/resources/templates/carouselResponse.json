@@ -3,8 +3,8 @@
   "displayText": "%s",
   "contextOut": [
     {
-      "name": "_actions_on_google_",
-      "lifespan": 100,
+      "name": "products",
+      "lifespan": 5,
       "parameters": {}
     }
   ],
