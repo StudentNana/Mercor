@@ -57,8 +57,8 @@ public class ServiceController {
     }
 
     public String addToCart(ApiaiQuery apiaiQuery) {
-        final boolean result = cartService.addToCart(apiaiQuery.getResult().getParameters().getArticleId(),
-                Integer.parseInt(apiaiQuery.getResult().getParameters().getCount()));
+        final boolean result = cartService.addToCart(apiaiQuery.getResult().getParameters().getArticleNumber(),
+                Integer.parseInt(apiaiQuery.getResult().getParameters().getArticleNumber()));
         final String message;
         if (result) {
             message = "Product added to cart.";
@@ -66,7 +66,7 @@ public class ServiceController {
             message = "Something wrong :( Product was NOT added";
         }
         return ResponseService.buildPlainApiaiResponse(message, message,
-                apiaiQuery.getResult().getParameters().getArticleId(), apiaiQuery.getResult().getParameters().getCount());
+                apiaiQuery.getResult().getParameters().getArticleNumber(), apiaiQuery.getResult().getParameters().getCount());
     }
 
     @RequestMapping(value = "test", method = RequestMethod.GET)

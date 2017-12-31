@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "count",
         "package",
         "spezialization",
-        "articleId"
+        "articleNumber"
 })
 public class Parameters {
 
@@ -30,8 +30,8 @@ public class Parameters {
     private String _package;
     @JsonProperty("spezialization")
     private String spezialization;
-    @JsonProperty("articleId")
-    private String articleId;
+    @JsonProperty("articleNumber")
+    private String articleNumber;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -85,14 +85,14 @@ public class Parameters {
         this.spezialization = spezialization;
     }
 
-    @JsonProperty("articleId")
-    public String getArticleId() {
-        return articleId;
+    @JsonProperty("articleNumber")
+    public String getArticleNumber() {
+        return articleNumber;
     }
 
-    @JsonProperty("articleId")
-    public void setArticleId(String articleId) {
-        this.articleId = articleId;
+    @JsonProperty("articleNumber")
+    public void setArticleNumber(String articleNumber) {
+        this.articleNumber = articleNumber;
     }
 
     @JsonAnyGetter

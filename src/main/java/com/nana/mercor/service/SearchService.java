@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -93,9 +94,10 @@ public class SearchService {
             if (!products.isEmpty()) {
                 lastProducts = products;
                 final ArrayList<CarouselElementInfo> carouselElementInfos = new ArrayList<>();
-                int counter = 1;
+                AtomicInteger counter = new AtomicInteger(0);
                 products.stream().forEach(p -> {
-                    final CarouselElementInfo carouselElementInfo = buildCarouselElementInfoForSearchResult(p, counter);
+                    final CarouselElementInfo carouselElementInfo =
+                            buildCarouselElementInfoForSearchResult(p, counter.incrementAndGet());
                     carouselElementInfos.add(carouselElementInfo);
                 });
                 final String message = String.format(PRODUCTS_FOUND_MESSAGE, products.size());
@@ -132,7 +134,5 @@ public class SearchService {
     public List<Product> getLastProducts() {
         return Collections.unmodifiableList(lastProducts);
     }
-
-//    public Optional<String> getBrandIdFromResponse()
 
 }

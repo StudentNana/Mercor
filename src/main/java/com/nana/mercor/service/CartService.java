@@ -22,12 +22,10 @@ public class CartService {
         this.searchService = searchService;
     }
 
-    public boolean addToCart(final String articleId, final int count) {
-        final Optional<Product> product = searchService.getLastProducts().stream()
-                .filter(p -> p.getId().equalsIgnoreCase(articleId))
-                .findFirst();
-        if (product.isPresent()) {
-            cart.add(CarouselElementInfo.buildCarouselElementInfoForCart(product.get(), count));
+    public boolean addToCart(final String articleNumber, final int count) {
+        final Product product = searchService.getLastProducts().get(Integer.parseInt(articleNumber));
+        if (product != null) {
+            cart.add(CarouselElementInfo.buildCarouselElementInfoForCart(product, count));
             return true;
         } else {
             // TODO: Try to send search request to find product
