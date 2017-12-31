@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.nana.mercor.service.ResponseService.buildCarouselResponse;
+import static com.nana.mercor.service.ResponseService.buildPlainApiaiResponse;
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+
 @Service
 public class CartService {
 
@@ -31,4 +35,19 @@ public class CartService {
         }
     }
 
+    public String showCart() {
+        if (cart.isEmpty()) {
+            final String message = "Your cart is empty";
+            return buildPlainApiaiResponse(message, message, "", "");
+        } else {
+            final String message = "Here is your cart content:";
+            return buildCarouselResponse(message, message, message, cart);
+        }
+    }
+
+    public String clearCart() {
+        cart.clear();
+        final String message = "Your cart has been cleared";
+        return buildPlainApiaiResponse(message, message, "", "");
+    }
 }

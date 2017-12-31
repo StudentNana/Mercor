@@ -2,6 +2,7 @@ package com.nana.mercor.web;
 
 import com.nana.mercor.domain.ApiaiQuery;
 import com.nana.mercor.service.CartService;
+import com.nana.mercor.service.IntentType;
 import com.nana.mercor.service.ResponseService;
 import com.nana.mercor.service.SearchService;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +23,32 @@ public class ServiceController {
         this.cartService = cartService;
     }
 
-    @RequestMapping(value = "search", method = RequestMethod.POST)
+    @RequestMapping(value = "webhook", method = RequestMethod.POST)
     @ResponseBody
-    public String search(@RequestBody ApiaiQuery apiaiQuery) {
+    public String webhook(@RequestBody ApiaiQuery apiaiQuery) {
+        final String intentName = apiaiQuery.getResult().getMetadata().getIntentName();
+        if (IntentType.SEARCH.getIntentName().equals(intentName)) {
+            return search(apiaiQuery);
+        } else if (IntentType.ADD_TO_CART.getIntentName().equals(intentName)) {
+            return addToCart(apiaiQuery);
+        } else if (IntentType.SHOW_CART.getIntentName().equals(intentName)) {
+            return showCart();
+        } else if (IntentType.CLEAR_CART.getIntentName().equals(intentName)) {
+            return clearCart();
+        } else {
+            return String.format("This type of intent is not implemented yet: %s", intentName);
+        }
+    }
+
+    private String showCart() {
+        return cartService.showCart();
+    }
+
+    private String clearCart() {
+        return cartService.clearCart();
+    }
+
+    private String search(ApiaiQuery apiaiQuery) {
         return searchService.search(
                 apiaiQuery.getResult().getParameters().getArticle(),
                 apiaiQuery.getResult().getParameters().getPackage(),
@@ -32,9 +56,7 @@ public class ServiceController {
                 apiaiQuery.getResult().getParameters().getSpezialization());
     }
 
-    @RequestMapping(value = "addToCart", method = RequestMethod.POST)
-    @ResponseBody
-    public String addToCart(@RequestBody ApiaiQuery apiaiQuery) {
+    public String addToCart(ApiaiQuery apiaiQuery) {
         final boolean result = cartService.addToCart(apiaiQuery.getResult().getParameters().getArticleId(),
                 Integer.parseInt(apiaiQuery.getResult().getParameters().getCount()));
         final String message;
