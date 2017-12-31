@@ -64,7 +64,7 @@ public class CarouselElementInfo {
         return new CarouselElementInfo(
                 product.getName(),
                 description,
-                product.getImageUrl(),
+                "https:" + product.getImageUrl(),
                 product.getName(),
                 product.getId(),
                 count,
