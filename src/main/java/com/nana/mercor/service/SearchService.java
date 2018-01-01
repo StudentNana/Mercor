@@ -35,6 +35,12 @@ import static com.nana.mercor.service.ResponseUtils.buildCarouselResponse;
 import static com.nana.mercor.service.ResponseUtils.buildPlainApiaiResponse;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+/**
+ * SearchService is class to create a request to online shop and get article.
+ *
+ * @author  Gulnaz Sagitova
+ */
+
 @Service
 public class SearchService {
 
@@ -47,16 +53,28 @@ public class SearchService {
             "q=", "%s"
     );
     private static final String QUERY_TEMPLATE_STRING = Joiner.on("&").withKeyValueSeparator("=").join(QUERY_TEMPLATE);
-    private static final String PRODUCTS_NOT_FOUND_MESSAGE = "Keine Artikeln gefunden";
-    private static final String PRODUCTS_FOUND_MESSAGE = "Gefundene Artikeln: %d";
+    private static final String PRODUCTS_NOT_FOUND_MESSAGE = "Leider wurden keine Artikeln gefunden";
+    private static final String PRODUCTS_FOUND_MESSAGE = "So schau mal, was ich für dich gefunfen habe: %d";
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private List<Product> lastProducts = new ArrayList<>();
 
+    /**
+     * Create a query
+     * @param params
+     * @param limit
+     */
     private String buildQuery(final List<String> params, final int limit) {
         return String.format(QUERY_TEMPLATE_STRING, limit, String.join(" ", params));
     }
 
+    /**
+     *
+     * @param article  name of the article
+     * @param packageType packing type of the article
+     * @param brandId  Brand name of the article
+     * @param limit total count of articles
+     */
     private Optional<SearchResponse> getSearchResponse(final String article, final String packageType,
                                                        final String brandId, final int limit) {
 
@@ -89,6 +107,14 @@ public class SearchService {
         }
     }
 
+    /**
+     * Search for an article with given packing type, brand name and specialization
+     * Returns a simple or carousel response to Dialogflow
+     * @param article  name of the article
+     * @param packageType packing type of the article
+     * @param brandName   Brand name of the article
+     * @param specialization   additional info of article
+     */
     public String search(final String article, final String packageType, final String brandName,
                          final String specialization) {
         final Optional<SearchResponse> searchResponse = getSearchResponse(article, packageType, null, 100);
@@ -111,6 +137,13 @@ public class SearchService {
         return buildPlainApiaiResponse(PRODUCTS_NOT_FOUND_MESSAGE, PRODUCTS_NOT_FOUND_MESSAGE, article, packageType);
     }
 
+    /**
+     * Get articles from online shop
+     * @param searchResponse  name of the article
+     * @param article   name of the article
+     * @param packageType packing type of the article
+     * @param brandName   Brand name of the article
+     */
     private List<Product> getProductsFromResponse(final SearchResponse searchResponse, final String article,
                                                   final String packageType, final String brandName) {
         List<Product> products = searchResponse.getProducts();
@@ -127,6 +160,11 @@ public class SearchService {
         return products.subList(0, 10);
     }
 
+    /**
+     * Returns an brand name of the article
+     * @param searchResponse  name of the article
+     * @param brand packing type of the article
+     */
     private Optional<Option__> getBrand(final SearchResponse searchResponse, final String brand) {
         final List<Option__> options = searchResponse.getFacets().getFilters().getBmBrand().getOptions();
         return options.stream()
@@ -134,6 +172,9 @@ public class SearchService {
                 .findFirst();
     }
 
+    /**
+     * Returns list of article after last search
+     */
     public List<Product> getLastProducts() {
         return Collections.unmodifiableList(lastProducts);
     }

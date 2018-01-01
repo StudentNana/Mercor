@@ -8,22 +8,48 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * ResponseUtils is util class to create a response from server to Dialogflow
+ *
+ * @author  Gulnaz Sagitova
+ */
 public class ResponseUtils {
 
+    /**
+     * Constructor for the class ResponseUtils
+     */
     private ResponseUtils() { }
 
+    /**
+     * Create a simple response
+     * @param speech  - text that should be speak
+     * @param displayText - text that should be displayed
+     * @param article - name of the article
+     * @param packageType - packing of the article
+     */
     public static String buildPlainApiaiResponse(final String speech, final String displayText, final String article,
                                           final String packageType) {
         final String template = getResourceFileAsString("templates/plainApiaiResponse.json");
         return String.format(template, speech, displayText, article, packageType);
     }
 
+    /**
+     * Convert JSON to String
+     * @param resourceFileName  JSON file
+     */
     private static String getResourceFileAsString(String resourceFileName) {
         InputStream is = ResponseUtils.class.getClassLoader().getResourceAsStream(resourceFileName);
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         return reader.lines().collect(Collectors.joining("\n"));
     }
 
+    /**
+     * Create a carousel response
+     * @param speech  - text that should be speak
+     * @param displayText - text that should be displayed
+     * @param textToSpeech - text that should be speak
+     * @param elements - list of articles
+     */
     public static String buildCarouselResponse(final String speech, final String displayText, final String textToSpeech,
                                                final List<CarouselElementInfo> elements) {
         final String responseTemplate = getResourceFileAsString("templates/carouselResponse.json");
@@ -35,6 +61,10 @@ public class ResponseUtils {
         return String.format(responseTemplate, speech, displayText, textToSpeech, carouselElementsString);
     }
 
+    /**
+     * create synonyms
+     * @param synonyms list of synonyms
+     */
     private static String buildSynonyms(final List<String> synonyms) {
         final List<String> synonymsWithQuotes = synonyms.stream().map(s -> "\"" + s + "\"").collect(Collectors.toList());
         return String.join(",\n", synonymsWithQuotes);

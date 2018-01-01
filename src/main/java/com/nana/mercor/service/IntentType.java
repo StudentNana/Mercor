@@ -1,5 +1,9 @@
 package com.nana.mercor.service;
-
+/**
+ *
+ *
+ * @author  Gulnaz Sagitova
+ */
 public enum IntentType {
 
     SEARCH("orderRecognition"),
@@ -9,6 +13,10 @@ public enum IntentType {
 
     private String intentName;
 
+    /**
+     * Constructor IntentType
+     * @param intentName - name of Intent like in Dialogflow
+     */
     IntentType(String intentName) {
         this.intentName = intentName;
     }

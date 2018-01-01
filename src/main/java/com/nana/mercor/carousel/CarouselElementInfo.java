@@ -6,6 +6,12 @@ import com.nana.mercor.bringmeister.Product;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * It is domain object to create carousel list of articles
+ *
+ * @author  Gulnaz Sagitova
+ */
+
 public class CarouselElementInfo {
 
     private static final Object EURO = "Euro";
@@ -18,7 +24,16 @@ public class CarouselElementInfo {
     private final List<String> synonyms;
     private final int count;
 
-
+    /**
+     * Constructor for the class CarouselElementInfo
+     * @param title - Name of the article
+     * @param description - additional Information of Article
+     * @param url - url for the picture
+     * @param accessibilityText - additional Information
+     * @param key - unique key of the article
+     * @param synonyms - synonyms of key
+     * @param count - total Number of the article
+     */
     public CarouselElementInfo(String title, String description, String url, String accessibilityText, String key,
                                int count, List<String> synonyms) {
         this.title = title;
@@ -58,6 +73,11 @@ public class CarouselElementInfo {
         return count;
     }
 
+    /**
+     * Create carousel for response for a cart
+     * @param product  a carousel of found article
+     * @param count  a carousel of found article
+     */
     public static CarouselElementInfo buildCarouselElementInfoForCart(final Product product, final int count) {
         final String description = String.format("%d * %s = %4.2f %s\\\\n%s", count, product.getFormatedPrice(),
                 product.getPrice() * count, EURO, product.getPacking());
@@ -71,6 +91,11 @@ public class CarouselElementInfo {
                 Collections.EMPTY_LIST);
     }
 
+    /**
+     * Create carousel for response after search
+     * @param product  a carousel of found article
+     * @param index  a carousel of found article
+     */
     public static CarouselElementInfo buildCarouselElementInfoForSearchResult(final Product product, final int index) {
         return new CarouselElementInfo(
                 String.format("%d. %s", index, product.getName()),
