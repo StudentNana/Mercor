@@ -1,7 +1,7 @@
 package com.nana.mercor.service;
 /**
  *
- *
+ * Enum holding types of the intents
  * @author  Gulnaz Sagitova
  */
 public enum IntentType {

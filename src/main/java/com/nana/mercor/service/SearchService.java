@@ -36,7 +36,7 @@ import static com.nana.mercor.service.ResponseUtils.buildPlainApiaiResponse;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
- * SearchService is class to create a request to online shop and get article.
+ * SearchService is class to create a request to online shop and get list of article.
  *
  * @author  Gulnaz Sagitova
  */
@@ -60,7 +60,7 @@ public class SearchService {
     private List<Product> lastProducts = new ArrayList<>();
 
     /**
-     * Create a query
+     * Build on-line shop query string
      * @param params
      * @param limit
      */
@@ -69,7 +69,7 @@ public class SearchService {
     }
 
     /**
-     *
+     * exequte POST request against on-line shop url
      * @param article  name of the article
      * @param packageType packing type of the article
      * @param brandId  Brand name of the article
@@ -108,7 +108,7 @@ public class SearchService {
     }
 
     /**
-     * Search for an article with given packing type, brand name and specialization
+     * Search for an article with given article name, packing type, brand name and specialization
      * Returns a simple or carousel response to Dialogflow
      * @param article  name of the article
      * @param packageType packing type of the article
@@ -138,8 +138,8 @@ public class SearchService {
     }
 
     /**
-     * Get articles from online shop
-     * @param searchResponse  name of the article
+     * Get articles from response online shop
+     * @param searchResponse  response from on-line shop
      * @param article   name of the article
      * @param packageType packing type of the article
      * @param brandName   Brand name of the article

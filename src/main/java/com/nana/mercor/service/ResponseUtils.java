@@ -34,7 +34,7 @@ public class ResponseUtils {
     }
 
     /**
-     * Convert JSON to String
+     * Reads resource file from class path and returns it as String
      * @param resourceFileName  JSON file
      */
     private static String getResourceFileAsString(String resourceFileName) {
