@@ -31,8 +31,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.nana.mercor.carousel.CarouselElementInfo.buildCarouselElementInfoForSearchResult;
-import static com.nana.mercor.service.ResponseService.buildPlainApiaiResponse;
-import static com.nana.mercor.service.ResponseService.buildCarouselResponse;
+import static com.nana.mercor.service.ResponseUtils.buildCarouselResponse;
+import static com.nana.mercor.service.ResponseUtils.buildPlainApiaiResponse;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Service
@@ -50,6 +50,7 @@ public class SearchService {
     private static final String PRODUCTS_NOT_FOUND_MESSAGE = "Keine Artikeln gefunden";
     private static final String PRODUCTS_FOUND_MESSAGE = "Gefundene Artikeln: %d";
     private static final ObjectMapper MAPPER = new ObjectMapper();
+
     private List<Product> lastProducts = new ArrayList<>();
 
     private String buildQuery(final List<String> params, final int limit) {
@@ -63,9 +64,11 @@ public class SearchService {
                 .filter(StringUtils::isNotEmpty)
                 .collect(Collectors.toList());
         String query = buildQuery(params, limit);
+
         if (isNotEmpty(brandId)) {
             query = query + String.format("bm_brand[%s]=%s", brandId, brandId);
         }
+
         LOGGER.info("Query string: {}", query);
 
         final ByteArrayEntity requestEntity = new ByteArrayEntity(query.getBytes());

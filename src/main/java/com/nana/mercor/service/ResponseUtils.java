@@ -8,9 +8,9 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ResponseService {
+public class ResponseUtils {
 
-    private ResponseService() { }
+    private ResponseUtils() { }
 
     public static String buildPlainApiaiResponse(final String speech, final String displayText, final String article,
                                           final String packageType) {
@@ -19,7 +19,7 @@ public class ResponseService {
     }
 
     private static String getResourceFileAsString(String resourceFileName) {
-        InputStream is = ResponseService.class.getClassLoader().getResourceAsStream(resourceFileName);
+        InputStream is = ResponseUtils.class.getClassLoader().getResourceAsStream(resourceFileName);
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         return reader.lines().collect(Collectors.joining("\n"));
     }

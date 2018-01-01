@@ -6,11 +6,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static com.nana.mercor.service.ResponseService.buildCarouselResponse;
-import static com.nana.mercor.service.ResponseService.buildPlainApiaiResponse;
-import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+import static com.nana.mercor.service.ResponseUtils.buildCarouselResponse;
+import static com.nana.mercor.service.ResponseUtils.buildPlainApiaiResponse;
 
 @Service
 public class CartService {

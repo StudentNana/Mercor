@@ -3,8 +3,9 @@ package com.nana.mercor.web;
 import com.nana.mercor.domain.ApiaiQuery;
 import com.nana.mercor.service.CartService;
 import com.nana.mercor.service.IntentType;
-import com.nana.mercor.service.ResponseService;
+import com.nana.mercor.service.ResponseUtils;
 import com.nana.mercor.service.SearchService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,7 @@ public class ServiceController {
     private final SearchService searchService;
     private final CartService cartService;
 
+    @Autowired
     public ServiceController(SearchService searchService, CartService cartService){
         this.searchService = searchService;
         this.cartService = cartService;
@@ -26,7 +28,9 @@ public class ServiceController {
     @RequestMapping(value = "webhook", method = RequestMethod.POST)
     @ResponseBody
     public String webhook(@RequestBody ApiaiQuery apiaiQuery) {
+
         final String intentName = apiaiQuery.getResult().getMetadata().getIntentName();
+
         if (IntentType.SEARCH.getIntentName().equals(intentName)) {
             return search(apiaiQuery);
         } else if (IntentType.ADD_TO_CART.getIntentName().equals(intentName)) {
@@ -65,20 +69,7 @@ public class ServiceController {
         } else {
             message = "Something wrong :( Product was NOT added";
         }
-        return ResponseService.buildPlainApiaiResponse(message, message,
+        return ResponseUtils.buildPlainApiaiResponse(message, message,
                 apiaiQuery.getResult().getParameters().getArticleNumber(), apiaiQuery.getResult().getParameters().getCount());
     }
-
-    @RequestMapping(value = "test", method = RequestMethod.GET)
-    @ResponseBody
-    public String test() {
-        return "{\n" +
-                "        \"speech\": \"Hello speech from spring boot!\",\n" +
-                "        \"displayText\": \"Hello text from spring boot!\",\n" +
-                "  \t\t\"data\": {},\n" +
-                "        \"contextOut\": [{\"name\":\"weather\", \"lifespan\":2, \"parameters\":{\"city\":\"Rome\"}}],\n" +
-                "        \"source\": \"apiai-weather-webhook-sample\"\n" +
-                "}";
-    }
-
 }
