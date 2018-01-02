@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * It is domain object to create carousel list of articles
+ * It is dialogflow object to create carousel list of articles
  *
  * @author  Gulnaz Sagitova
  */

@@ -1,6 +1,6 @@
 package com.nana.mercor.web;
 
-import com.nana.mercor.domain.ApiaiQuery;
+import com.nana.mercor.dialogflow.ApiaiQuery;
 import com.nana.mercor.service.CartService;
 import com.nana.mercor.service.IntentType;
 import com.nana.mercor.service.ResponseUtils;
