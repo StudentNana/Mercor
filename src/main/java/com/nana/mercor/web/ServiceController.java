@@ -65,9 +65,9 @@ public class ServiceController {
                 Integer.parseInt(apiaiQuery.getResult().getParameters().getArticleNumber()));
         final String message;
         if (result) {
-            message = "Product added to cart.";
+            message = "Ich habe den Artikel in den Warenkorb gelegt.";
         } else {
-            message = "Something wrong :( Product was NOT added";
+            message = "Etwas ist schief gelaufen :( Versuch bitte noch ein Mal.";
         }
         return ResponseUtils.buildPlainApiaiResponse(message, message,
                 apiaiQuery.getResult().getParameters().getArticleNumber(), apiaiQuery.getResult().getParameters().getCount());
