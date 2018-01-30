@@ -66,7 +66,7 @@ public class CartService {
      */
     public String clearCart() {
         cart.clear();
-        final String message = "Die Artikeln wurde aus Deinem Warenkorb gelöscht.";
+        final String message = "Die Artikeln wurde aus Deinem Warenkorb geloescht.";
         return buildPlainApiaiResponse(message, message, "", "");
     }
 }

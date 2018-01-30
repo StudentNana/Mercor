@@ -54,7 +54,7 @@ public class SearchService {
     );
     private static final String QUERY_TEMPLATE_STRING = Joiner.on("&").withKeyValueSeparator("=").join(QUERY_TEMPLATE);
     private static final String PRODUCTS_NOT_FOUND_MESSAGE = "Leider wurden keine Artikeln gefunden";
-    private static final String PRODUCTS_FOUND_MESSAGE = "So schau mal, was ich für dich gefunfen habe: %d";
+    private static final String PRODUCTS_FOUND_MESSAGE = "So schau mal, was ich gefunden habe";
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private List<Product> lastProducts = new ArrayList<>();
@@ -129,8 +129,7 @@ public class SearchService {
                             buildCarouselElementInfoForSearchResult(p, counter.incrementAndGet());
                     carouselElementInfos.add(carouselElementInfo);
                 });
-                final String message = String.format(PRODUCTS_FOUND_MESSAGE, products.size());
-                return buildCarouselResponse(message, message, message, carouselElementInfos);
+                return buildCarouselResponse(PRODUCTS_FOUND_MESSAGE, PRODUCTS_FOUND_MESSAGE, PRODUCTS_FOUND_MESSAGE, carouselElementInfos);
             }
         }
 
