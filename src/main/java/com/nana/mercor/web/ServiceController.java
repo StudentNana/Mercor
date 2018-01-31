@@ -5,6 +5,8 @@ import com.nana.mercor.service.CartService;
 import com.nana.mercor.service.IntentType;
 import com.nana.mercor.service.ResponseUtils;
 import com.nana.mercor.service.SearchService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("mercor")
 public class ServiceController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SearchService.class);
 
     private final SearchService searchService;
     private final CartService cartService;
@@ -30,18 +34,22 @@ public class ServiceController {
     public String webhook(@RequestBody ApiaiQuery apiaiQuery) {
 
         final String intentName = apiaiQuery.getResult().getMetadata().getIntentName();
-
+        final String response;
         if (IntentType.SEARCH.getIntentName().equals(intentName)) {
-            return search(apiaiQuery);
+            response = search(apiaiQuery);
         } else if (IntentType.ADD_TO_CART.getIntentName().equals(intentName)) {
-            return addToCart(apiaiQuery);
+            response = addToCart(apiaiQuery);
         } else if (IntentType.SHOW_CART.getIntentName().equals(intentName)) {
-            return showCart();
+            response = showCart();
         } else if (IntentType.CLEAR_CART.getIntentName().equals(intentName)) {
-            return clearCart();
+            response = clearCart();
         } else {
-            return String.format("This type of intent is not implemented yet: %s", intentName);
+            response = String.format("This type of intent is not implemented yet: %s", intentName);
         }
+
+        LOGGER.info(response);
+
+        return response;
     }
 
     private String showCart() {
