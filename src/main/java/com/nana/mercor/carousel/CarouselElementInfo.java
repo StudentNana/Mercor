@@ -79,7 +79,7 @@ public class CarouselElementInfo {
      * @param count  a carousel of found article
      */
     public static CarouselElementInfo buildCarouselElementInfoForCart(final Product product, final int count) {
-        final String description = String.format("%d * %s = %4.2f %s\\\\n%s", count, product.getFormatedPrice(),
+        final String description = String.format("%d * %s = %4.2f %s  %s", count, product.getFormatedPrice(),
                 product.getPrice() * count, EURO, product.getPacking());
         return new CarouselElementInfo(
                 product.getName(),
@@ -99,7 +99,7 @@ public class CarouselElementInfo {
     public static CarouselElementInfo buildCarouselElementInfoForSearchResult(final Product product, final int index) {
         return new CarouselElementInfo(
                 String.format("%d. %s", index, product.getName()),
-                String.format("%s %s \\\n %s", product.getFormatedPrice(), EURO, product.getPacking()),
+                String.format("%s %s  %s", product.getFormatedPrice(), EURO, product.getPacking()),
                 "https:" + product.getImageUrl(),
                 product.getName(),
                 product.getId(),

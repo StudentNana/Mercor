@@ -25,7 +25,7 @@ public class ServiceController {
         this.cartService = cartService;
     }
 
-    @RequestMapping(value = "webhook", method = RequestMethod.POST)
+    @RequestMapping(value = "webhook", method = RequestMethod.POST, produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public String webhook(@RequestBody ApiaiQuery apiaiQuery) {
 

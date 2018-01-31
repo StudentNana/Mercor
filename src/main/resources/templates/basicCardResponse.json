@@ -23,14 +23,7 @@
                 "url": "%s",
                 "accessibilityText": "%s"
               },
-              "buttons": [
-                {
-                  "title": "This is a button",
-                  "openUrlAction": {
-                    "url": "https://assistant.google.com/"
-                  }
-                }
-              ]
+              "buttons": []
             }
           }
         ]
