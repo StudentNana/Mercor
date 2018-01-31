@@ -72,8 +72,7 @@ public class ResponseUtils {
                                                final CarouselElementInfo element) {
         final String responseTemplate = getResourceFileAsString("templates/basicCardResponse.json");
         return String.format(responseTemplate, speech, displayText, speech, displayText,
-                element.getTitle(), element.getDescription(), element.getDescription(), element.getUrl(),
-                element.getAccessibilityText());
+                element.getTitle(), element.getDescription(), element.getUrl(), element.getAccessibilityText());
     }
 
     /**

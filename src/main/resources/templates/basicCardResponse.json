@@ -17,7 +17,6 @@
           {
             "basicCard": {
               "title": "%s",
-              "subtitle": "%s",
               "formattedText": "%s",
               "image": {
                 "url": "%s",
