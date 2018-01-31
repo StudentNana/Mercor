@@ -1,6 +1,6 @@
 {
   "title": "%s",
-  "formattedText": "%s",
+  "description": "%s",
   "image": {
     "url": "%s",
     "accessibilityText": "%s"
