@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.nana.mercor.service.ResponseUtils.buildCardResponse;
 import static com.nana.mercor.service.ResponseUtils.buildCarouselResponse;
 import static com.nana.mercor.service.ResponseUtils.buildPlainApiaiResponse;
 
@@ -54,6 +55,9 @@ public class CartService {
         if (cart.isEmpty()) {
             final String message = "Dein Warenkorb ist leer.";
             return buildPlainApiaiResponse(message, message, "", "");
+        } else if (cart.size() == 1) {
+            final String message = "Dein Warenkorb:";
+            return buildCardResponse(message, message, message, cart.get(0));
         } else {
             final String message = "Dein Warenkorb:";
             return buildCarouselResponse(message, message, message, cart);

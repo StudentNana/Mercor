@@ -62,6 +62,21 @@ public class ResponseUtils {
     }
 
     /**
+     * Create a single element card response
+     * @param speech  - text that should be speak
+     * @param displayText - text that should be displayed
+     * @param textToSpeech - text that should be speak
+     * @param element - article
+     */
+    public static String buildCardResponse(final String speech, final String displayText, final String textToSpeech,
+                                               final CarouselElementInfo element) {
+        final String responseTemplate = getResourceFileAsString("templates/basicCardResponse.json");
+        return String.format(responseTemplate, speech, displayText, speech, displayText,
+                element.getTitle(), element.getDescription(), element.getDescription(), element.getUrl(),
+                element.getAccessibilityText());
+    }
+
+    /**
      * create synonyms
      * @param synonyms list of synonyms
      */

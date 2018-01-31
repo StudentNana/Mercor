@@ -104,7 +104,7 @@ public class CarouselElementInfo {
                 product.getName(),
                 product.getId(),
                 0,
-                ImmutableList.of(Integer.toString(index), product.getName().split(" ")[0]));
+                ImmutableList.of(Integer.toString(index)));
     }
 
 }
