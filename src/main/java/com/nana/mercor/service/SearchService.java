@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.nana.mercor.carousel.CarouselElementInfo.buildCarouselElementInfoForSearchResult;
+import static com.nana.mercor.service.ResponseUtils.buildCardResponse;
 import static com.nana.mercor.service.ResponseUtils.buildCarouselResponse;
 import static com.nana.mercor.service.ResponseUtils.buildPlainApiaiResponse;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -129,7 +130,15 @@ public class SearchService {
                             buildCarouselElementInfoForSearchResult(p, counter.incrementAndGet());
                     carouselElementInfos.add(carouselElementInfo);
                 });
-                return buildCarouselResponse(PRODUCTS_FOUND_MESSAGE, PRODUCTS_FOUND_MESSAGE, PRODUCTS_FOUND_MESSAGE, carouselElementInfos);
+                String responseJson;
+                if (carouselElementInfos.size() == 1) {
+                    responseJson = buildCardResponse(PRODUCTS_FOUND_MESSAGE, PRODUCTS_FOUND_MESSAGE,
+                            PRODUCTS_FOUND_MESSAGE, carouselElementInfos.get(0));
+                } else {
+                    responseJson = buildCarouselResponse(PRODUCTS_FOUND_MESSAGE, PRODUCTS_FOUND_MESSAGE,
+                            PRODUCTS_FOUND_MESSAGE, carouselElementInfos);
+                }
+                return responseJson;
             }
         }
 
