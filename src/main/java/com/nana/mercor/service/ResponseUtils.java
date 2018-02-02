@@ -80,7 +80,9 @@ public class ResponseUtils {
      * @param synonyms list of synonyms
      */
     private static String buildSynonyms(final List<String> synonyms) {
-        final List<String> synonymsWithQuotes = synonyms.stream().map(s -> "\"" + s + "\"").collect(Collectors.toList());
+        final List<String> synonymsWithQuotes = synonyms.stream()
+                .map(s -> "\"" + s + "\"")
+                .collect(Collectors.toList());
         return String.join(",\n", synonymsWithQuotes);
     }
 

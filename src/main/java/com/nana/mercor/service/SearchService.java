@@ -125,7 +125,7 @@ public class SearchService {
                 lastProducts = products;
                 final ArrayList<CarouselElementInfo> carouselElementInfos = new ArrayList<>();
                 AtomicInteger counter = new AtomicInteger(0);
-                products.stream().forEach(p -> {
+                products.forEach(p -> {
                     final CarouselElementInfo carouselElementInfo =
                             buildCarouselElementInfoForSearchResult(p, counter.incrementAndGet());
                     carouselElementInfos.add(carouselElementInfo);
