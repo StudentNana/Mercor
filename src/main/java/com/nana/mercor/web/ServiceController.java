@@ -70,8 +70,7 @@ public class ServiceController {
 
     public String addToCart(ApiaiQuery apiaiQuery) {
         final boolean result = cartService.addToCart(apiaiQuery.getResult().getParameters().getArticleNumber(),
-                // Integer.parseInt(apiaiQuery.getResult().getParameters().getArticleNumber())
-                1);
+                Integer.parseInt(apiaiQuery.getResult().getParameters().getArticleNumber()));
         final String message;
         if (result) {
             message = "Ich habe den Artikel in den Warenkorb gelegt.";
